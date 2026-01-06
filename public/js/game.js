@@ -470,6 +470,34 @@
             bond: stats.bond ?? current.stats.bond ?? 0,
         };
 
+       // ✅ 스토리 로그(최근 6개만 유지) 추가
+const chapter = scene?.chapter || {};
+const firstDialogue = Array.isArray(scene?.dialogue) ? scene.dialogue.slice(0, 3) : [];
+const logItem = {
+  t: Date.now(),
+  chapter: {
+    schoolYear: chapter.schoolYear,
+    term: chapter.term,
+    arcTitle: chapter.arcTitle,
+    sceneTitle: chapter.sceneTitle,
+    location: chapter.location,
+    time: chapter.time,
+  },
+  // 너무 길면 토큰 폭발하니 짧게 잘라서 저장
+  narration: (scene?.narration || "").slice(0, 600),
+  dialogue: firstDialogue.map(d => ({
+    speaker: String(d?.speaker || "").slice(0, 20),
+    text: String(d?.text || "").slice(0, 160)
+  })),
+  // 마지막 선택은 onChoose에서 넣을 거라 여기선 비워둠
+  chosen: null
+};
+
+current.storyLog = Array.isArray(current.storyLog) ? current.storyLog : [];
+current.storyLog.push(logItem);
+current.storyLog = current.storyLog.slice(-6);
+       
+
         // relationships: 누적 델타(정수)
         for (const r of rels) {
             const name = safeText(r?.name);
@@ -521,6 +549,16 @@
             globalFlags: [],
             last: null,
         };
+
+        return {
+    stats: { focus: 0, talent: 0, reason: 0, bond: 0 },
+    relationships: {},
+    globalFlags: [],
+    last: null,
+
+    // ✅ 추가
+    storyLog: []  // 최근 N개 장면 기록
+  };
     }
 
     // ===== API calls =====
@@ -638,3 +676,4 @@
 
     boot();
 })();
+

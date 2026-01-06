@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>Ariel Potter TRPG</title>
+    <link rel="stylesheet" href="/css/game.css" />
+</head>
+
+<body>
+    <div id="app" class="app">
+        <!-- 배경 레이어 (bgKey로 JS에서 교체) -->
+        <div class="bg" id="bg" aria-hidden="true"></div>
+        <div class="bgOverlay" aria-hidden="true"></div>
+
+        <!-- 상단 상태바 (선택: stats 표시) -->
+        <header class="topbar">
+            <div class="topbar-left">
+                <div class="badge" id="chapterBadge">
+                    <div class="badge-title" id="arcTitle">1학년 가을</div>
+                    <div class="badge-sub" id="sceneTitle">입학 직후</div>
+                </div>
+            </div>
+
+            <div class="topbar-right">
+                <div class="stat">
+                    <span class="stat-label">집중</span><span class="stat-val" id="statFocus">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">재능</span><span class="stat-val" id="statTalent">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">이성</span><span class="stat-val" id="statReason">0</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-label">유대</span><span class="stat-val" id="statBond">0</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- 중앙: “현재 장면” 캐릭터(선택) -->
+        <main class="stage" aria-label="Scene Stage">
+            <!-- 필요하면 spotlight 캐릭터(큰 스탠딩) 이미지를 여기서 보여줘도 됨 -->
+            <div class="spotlightWrap" id="spotlightWrap" aria-hidden="true">
+                <img id="spotlightImg" class="spotlightImg" alt="" />
+            </div>
+        </main>
+
+        <!-- 하단: 대사창 + 선택지 -->
+        <section class="hud" aria-label="Dialogue">
+            <div class="dialogueCard">
+                <!-- 작은 주인공(또는 현재 화자) 아바타 -->
+                <div class="avatar">
+                    <!-- JS에서 visuals.characters 중 spotlight / ariel 기준으로 src 교체 -->
+                    <img id="avatarImg" alt="캐릭터" src="/img/chars/ariel/neutral.png" />
+                </div>
+
+                <div class="dialogueBody">
+                    <div class="metaLine">
+                        <div class="location" id="location">그리핀도르 기숙사</div>
+                        <div class="time" id="time">저녁</div>
+                    </div>
+
+                    <!-- 스크롤 금지: overflow hidden + line clamp -->
+                    <div class="textBlock">
+                        <p class="narration" id="narration">
+                            (여기에 narration이 들어감) 입학 첫날, 낯선 침대보와 벽난로 냄새가 섞여서 머리가 살짝 멍해졌다.
+                            그래도… 이상하게도 싫진 않다. 오히려, ‘진짜 시작’ 같아.
+                        </p>
+
+                        <div class="dialogueList" id="dialogueList">
+                            <!-- 예시 (JS로 교체) -->
+                            <div class="line">
+                                <span class="speaker">마렌</span>
+                                <span class="colon">:</span>
+                                <span class="say">에리얼, 여기가 네 자리야! 이불 폭신하지?</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 길어졌을 때 스크롤 대신 “다음” 힌트(클릭/탭은 JS에서 처리) -->
+                    <button class="nextHint" id="nextHint" type="button" aria-label="다음으로">
+                        탭해서 계속 ▸
+                    </button>
+                </div>
+            </div>
+
+            <div class="choices" id="choices" aria-label="Choices">
+                <button class="choiceBtn" data-choice="1" type="button">
+                    <span class="choiceId">1</span>
+                    <span class="choiceText">마렌 옆에 앉아 기숙사 규칙을 물어본다.</span>
+                    <span class="choiceTag">우정</span>
+                </button>
+
+                <button class="choiceBtn" data-choice="2" type="button">
+                    <span class="choiceId">2</span>
+                    <span class="choiceText">침대 주변을 정리하며 방 분위기를 관찰한다.</span>
+                    <span class="choiceTag">일상</span>
+                </button>
+
+                <button class="choiceBtn" data-choice="3" type="button">
+                    <span class="choiceId">3</span>
+                    <span class="choiceText">복도에서 들린 소음을 확인하러 조용히 나가본다.</span>
+                    <span class="choiceTag danger">미스터리</span>
+                </button>
+            </div>
+
+            <!-- 하단 안전영역 -->
+            <div class="safePad" aria-hidden="true"></div>
+        </section>
+    </div>
+
+    <!-- JS는 나중에 연결: /js/game.js 등 -->
+    <script src="/js/game.js" defer></script>
+</body>
+
+</html>
